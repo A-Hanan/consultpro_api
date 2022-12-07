@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const mongoURI =
   "mongodb://reddynithin:4g8Y12ntwKAz0vK0@ac-2xxs63m-shard-00-00.km0wcxl.mongodb.net:27017,ac-2xxs63m-shard-00-01.km0wcxl.mongodb.net:27017,ac-2xxs63m-shard-00-02.km0wcxl.mongodb.net:27017/?ssl=true&replicaSet=atlas-qge6br-shard-0&authSource=admin&retryWrites=true&w=majority";
@@ -10,6 +10,7 @@ const connectToMongo = () => {
       console.log("connected to mongoDB");
     })
     .catch((err) => console.log(err, "prrr"));
+
   // mongoose.connect("", {
   //   useNewUrlParser: true, // Boilerplate for Mongoose 5.x
   // });
@@ -19,4 +20,4 @@ const connectToMongo = () => {
   // );
 };
 
-export default connectToMongo;
+module.exports = connectToMongo;

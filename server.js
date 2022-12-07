@@ -23,7 +23,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.status(200).send("server working fine");
 });
-// app.use("/api/auth", require("./routes/auth"));
+app.use("/api/auth", require("./routes/auth"));
+app.use("/api/experts", require("./routes/experts"));
 // app.use("/api/user", require("./routes/user"));
 
 server.listen(port, () => {

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const UserVerificationSchema = new mongoose.Schema({
   userId: String,
@@ -11,4 +11,4 @@ const UserVerification = mongoose.model(
   "UserVerification",
   UserVerificationSchema
 );
-export default UserVerification;
+module.exports = UserVerification;
