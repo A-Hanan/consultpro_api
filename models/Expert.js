@@ -27,6 +27,10 @@ const ExpertSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    minFee: {
+      type: Number,
+      default: 50,
+    },
 
     isProfileCompleted: {
       type: Boolean,

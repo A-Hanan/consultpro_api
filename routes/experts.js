@@ -49,4 +49,18 @@ router.post("/createExpert", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+router.get("/getExpertById/:userId", async (req, res) => {
+  //this will not work incase of google or facebook user
+
+  try {
+    userId = req.params.userId;
+    console.log("userId", userId);
+    const user = await Expert.findById(userId);
+    return res.status(200).send(user);
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).send("Internal Server Error");
+  }
+});
 module.exports = router;

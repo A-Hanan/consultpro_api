@@ -621,4 +621,46 @@ router.post(
   }
 );
 
+//send contact us email
+router.post("/send-query-email", (req, res) => {
+  console.log("sending verification email");
+
+  const { email, name, message } = req.body;
+  if (!name || !email || !message) {
+    res.status(400).send("incorrect credential");
+  }
+  console.log("request body", req.body);
+  const toEmail = process.env.AUTH_EMAIL;
+
+  const mailOptions = {
+    from: process.env.AUTH_EMAIL,
+    to: toEmail,
+    subject: "Recieved query from  " + name + " ",
+    html: `
+    <h1 style="font-weight:400;">Recieved query from ${name},
+    <span style="color:#006;">Consult </span>
+    <span style="color:#ff9e15;">Pro</span>
+    </h1>
+    <h3 style="font-size:17px;">Sender Name : ${name}</h3>
+    <h3 style="font-size:17px;">Sender Email: ${email}</h3>
+    <h3 style="font-size:17px;">message: ${message}.</h3>
+    <h4 style="font-size:20px;">Regards: ConsultPro Team</h4>
+      `,
+  };
+  //hash the uniqueString4
+  console.log("sending query mail 2");
+
+  transporter
+    .sendMail(mailOptions)
+    .then(() => {
+      //email sent and verification record saved
+      console.log("query mail sent successfully");
+      res.status(200).send("query email sent successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("query email sending failed");
+    });
+});
+
 module.exports = router;
