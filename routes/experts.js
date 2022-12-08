@@ -49,6 +49,53 @@ router.post("/createExpert", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+router.post(
+  "/login",
+
+  async (req, res) => {
+    let success = false;
+    // If there are errors, return bad request and the errors
+
+    console.log("checkpoint 1");
+    const { email, password } = req.body;
+    try {
+      let user = await Expert.findOne({ email });
+      if (!user) {
+        return res
+          .status(400)
+          .json({ error: "Please try to login with correct information" });
+      }
+      console.log("checkpoint 2");
+      //decrypt here
+      // const passwordCompare = await bcrypt.compare(password, user.password);
+      // console.log("password compare", passwordCompare);
+      // if (!passwordCompare) {
+      //   success = false;
+      //   return res.status(400).json({
+      //     success,
+      //     error: "Please try to login with correct information",
+      //   });
+      // }
+      if (password !== user.password) {
+        success = false;
+        return res.status(400).json({
+          success,
+          error: "Please try to login with correct information",
+        });
+      }
+      console.log("user of id", user?.id);
+      let userData = user;
+      console.log("checkpoint 3");
+      // const authtoken = jwt.sign(user.id, JWT_SECRET);
+
+      success = true;
+      res.json({ success, userData });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
 
 router.get("/getExpertById/:userId", async (req, res) => {
   //this will not work incase of google or facebook user

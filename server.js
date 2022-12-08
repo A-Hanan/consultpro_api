@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/experts", require("./routes/experts"));
+app.use("/api/appointment", require("./routes/appointment"));
 // app.use("/api/user", require("./routes/user"));
 
 server.listen(port, () => {
