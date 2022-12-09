@@ -1,11 +1,12 @@
 const connectToMongo = require("./db");
 const express = require("express");
+const runSocketServer = require("./socket");
 
 // const runSocketServer = require("./socket");
 var cors = require("cors");
 const bodyParser = require("body-parser");
 
-// runSocketServer();
+runSocketServer();
 connectToMongo();
 
 const app = express();
