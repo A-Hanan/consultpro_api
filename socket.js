@@ -26,7 +26,7 @@ const runSocketServer = () => {
 
   io.on("connection", (socket) => {
     //when connect
-    console.log("a user connected to a socket server!");
+    // console.log("a user connected to a socket server!");
     // after wvery connection take userId and SocketId from user
     socket.on("addUser", (userId) => {
       addUser(userId, socket.id);
@@ -50,25 +50,6 @@ const runSocketServer = () => {
       }
     );
 
-    //send and recieve conversations
-    socket.on(
-      "sendConversation",
-      ({ conversationId, senderId, receiverId, senderName, receiverName }) => {
-        const user = getUser(receiverId);
-        console.log("receiverId>> ", receiverId);
-        console.log("\n\n\nsending conversation to ", user?.userId);
-        console.log("conversationId > ", conversationId);
-        console.log("senderId>> ", senderId);
-        io.to(user?.socketId).emit("getConversation", {
-          conversationId,
-          senderId,
-          receiverId,
-          senderName,
-          receiverName,
-        });
-      }
-    );
-
     socket.emit("me", socket.id);
 
     socket.on("disconnect", () => {
@@ -77,8 +58,8 @@ const runSocketServer = () => {
     });
     console.log("here call user runs");
     socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-      console.log("users active while calling>>> ", users);
-      console.log("running call user");
+      // console.log("users active while calling>>> ", users);
+      // console.log("running call user");
       const fromUser = getUserBySocketId(from);
       const user = getUser(userToCall);
       console.log("calling ", userToCall, user?.socketId);
@@ -92,8 +73,13 @@ const runSocketServer = () => {
     });
 
     socket.on("answerCall", (data) => {
-      const user = getUser(data.to);
-      io.to(user?.socketId).emit("callAccepted", data.signal);
+      console.log("data at answer call", data);
+      const rec = getUser(data?.receiverId);
+      console.log("reciever socket id after accepting call", rec?.socketId);
+      io.to(rec?.socketId).emit("callAccepted", data.signal);
+      // const user = getUser(data.to);
+      // console.log("reciever socket id after accepting call", user?.socketId);
+      // io.to(user?.socketId).emit("callAccepted", data.signal);
       //console.log("answer call");
     });
     socket.on("endCall", ({ receiverId }) => {
