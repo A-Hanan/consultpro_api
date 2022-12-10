@@ -194,24 +194,25 @@ router.get("/pending", async (req, res) => {
   }
 });
 //getting  attended appointment
-router.get("/attended/:userType", async (req, res) => {
-  const userId = req.userId;
-  const { userType } = req.params;
+router.get("/attended/:userId/:userType", async (req, res) => {
+  // const userId = req.userId;
+  const { userType, userId } = req.params;
+  console.log("rq params", req.params);
   let appointments;
   if (userType == "expert") {
     appointments = await Appointment.find({
       expertId: userId,
       status: "Attended",
     });
-  } else if (userType == "client") {
+  } else if (userType == "user") {
     appointments = await Appointment.find({
-      clientId: userId,
+      userId: userId,
       status: "Attended",
     });
   }
 
   //console.log("attended appointments>", appointments);
-  if (appointments.length > 0) {
+  if (appointments?.length > 0) {
     res.status(200).json(appointments);
   } else {
     res.status(404).json({ success: "failed" });
